@@ -9,7 +9,7 @@ var app = alexa.app("Parrot")
 			.send();
 	})
 	.onIntent("RepeatPhrase", function(req, res) {
-		res.prompt(req.intent.slots("phrase")).send();
+		res.prompt(req.intent.slot("phrase")).send();
 	})
 	.onIntent("AMAZON.StopIntent", function(req, res) {
 		res.endSession(true).send();
