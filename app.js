@@ -9,20 +9,38 @@ var app = alexa.app("Parrot")
 			.send();
 	})
 	.onIntent("RepeatPhrase", function(req, res) {
-		res.prompt(req.intent.slot("phrase")).send();
+		var phrase = req.intent.slot("phrase");
+
+		if (phrase) {
+			if (phrase == "I'm done" || phrase == "I am done") {
+				res.prompt("<speak>Transforming back into an Echo. <p>kwauqs kwauqs</p> Goodbye!</speak>")
+					.endSession(true)
+					.send();
+			} else {
+				res.prompt("<speak>" + phrase + " <p>What else do you want to say?</p></speak>")
+					.endSession(false)
+					.send();
+			}
+		} else {
+			res.prompt("I didn't quite hear what you wanted me to say or repeat. Could you repeat your command again?")
+				.endSession(false)
+				.send();
+		}
 	})
 	.onIntent("AMAZON.StopIntent", function(req, res) {
-		res.endSession(true).send();
+		res.prompt("All right, goodbye!").endSession(true).send();
 	})
 	.onIntent("AMAZON.CancelIntent", function(req, res) {
-		res.endSession(true).send();
+		res.prompt("All right, goodbye!").endSession(true).send();
 	})
 	.onIntent("AMAZON.HelpIntent", function(req, res) {
-		var prompt = "You can ask me to repeat or say a phrase followed by the phrase you provided. You can also say stop or cancel if you are done.";
+		var prompt = "You can ask me to repeat or say a phrase followed by the phrase you provide. You can also say stop or cancel if you are done.";
 		res.prompt(prompt).endSession(false).send();
 	})
 	.onSessionEnd(function(req, res) {
-		res.prompt("<speak>Transforming back into an Echo. <p>kwauqs kwauqs</p> Goodbye!</speak>").send();
+		res.prompt("<speak>Transforming back into an Echo. <p>kwauqs kwauqs</p> Goodbye!</speak>")
+			.endSession(true)
+			.send();
 	})
 	.host("/parrot", PORT, false);
 
