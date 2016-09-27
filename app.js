@@ -12,20 +12,19 @@ var app = alexa.app("Parrot")
 		var phrase = req.intent.slot("phrase");
 
 		if (phrase) {
-			if (phrase == "I'm done" || phrase == "I am done") {
-				res.prompt("<speak>Transforming back into an Echo. <p>kwauqs kwauqs</p> Goodbye!</speak>")
-					.endSession(true)
-					.send();
-			} else {
-				res.prompt("<speak>" + phrase + " <p>What else do you want to say?</p></speak>")
-					.endSession(false)
-					.send();
-			}
+			res.prompt("<speak>" + phrase + " <p>What else do you want to say?</p></speak>")
+				.endSession(false)
+				.send();
 		} else {
 			res.prompt("I didn't quite hear what you wanted me to say or repeat. Could you repeat your command again?")
 				.endSession(false)
 				.send();
 		}
+	})
+	.onIntent("ExitSession", function (req, res) {
+		res.prompt("<speak>Transforming back into an Echo. <p>squawk squawk</p> Goodbye!</speak>")
+			.endSession(true)
+			.send();
 	})
 	.onIntent("AMAZON.StopIntent", function(req, res) {
 		res.prompt("All right, goodbye!").endSession(true).send();
@@ -38,7 +37,7 @@ var app = alexa.app("Parrot")
 		res.prompt(prompt).endSession(false).send();
 	})
 	.onSessionEnd(function(req, res) {
-		res.prompt("<speak>Transforming back into an Echo. <p>kwauqs kwauqs</p> Goodbye!</speak>")
+		res.prompt("<speak>Transforming back into an Echo. <p>squawk squawk</p> Goodbye!</speak>")
 			.endSession(true)
 			.send();
 	})
