@@ -1,2 +1,2 @@
 # Parrot
-An alexa skill that repeats anything you say.
+An Amazon Alexa skill that repeats anything you say.
